@@ -27,5 +27,10 @@ Time spent: 10 hours
 - [ ] User can load more tweets once they reach the bottom of the feed using infinite loading similar to the actual Twitter client.
 
 ### Walkthrough
+![Video Walkthrough](http://i.imgur.com/91RToAT.gif)
 
-![Video Walkthrough](...)
+Credits
+---------
+* GIF created with [LiceCap](http://www.cockos.com/licecap/)
+* [AFNetworking](https://github.com/AFNetworking/AFNetworking)
+* [BDBOAuth1Manager](https://github.com/bdbergeron/BDBOAuth1Manager)
