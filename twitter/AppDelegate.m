@@ -7,47 +7,60 @@
 //
 
 #import "AppDelegate.h"
-#import "LoginViewController.h"
+#import "SignInViewController.h"
 #import "TwitterClient.h"
 #import "User.h"
 #import "Tweet.h"
-#import "TweetsViewController.h"
+#import "TimelineViewController.h"
 
 @interface AppDelegate ()
-
+@property (nonatomic, strong) UIViewController* signInViewController;
+@property (nonatomic, strong) UIViewController* MainViewController;
 @end
 
 @implementation AppDelegate
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-  // Override point for customization after application launch.
-  
-  
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidLogout) name:UserDidLogoutNotification object:nil];
-  
-  
-  self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
   
   User *user  = [User currentUser];
+  
+  self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+  self.signInViewController = [[SignInViewController alloc] init];
+  
+  if(!_MainViewController){
+    _MainViewController = [[TimelineViewController alloc] initWithDataLoadingBlockWithSuccessFailure:^(void (^success)(NSArray *), void (^failure)(NSError *)) {
+      [[TwitterClient instance] homeTimelineWithSuccess:success failure:failure];
+    }];
+  }
+  
   if(user !=nil){
-    self.window.rootViewController = [[TweetsViewController alloc] init];
+    _MainViewController.title = @"Home";
+    self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:_MainViewController];
   }
   else{
-    self.window.rootViewController = [[LoginViewController alloc] init];
-    
+    self.window.rootViewController = self.signInViewController;
   }
-
+  
+  [self registerUserNotifications];
   self.window.backgroundColor = [UIColor whiteColor];
   [self.window makeKeyAndVisible];
-
+  
   return YES;
 }
 
-- (void)userDidLogout{
-  self.window.rootViewController = [[LoginViewController alloc] init];
+
+- (void) registerUserNotifications
+{
+  [[NSNotificationCenter defaultCenter] addObserverForName:CurrentUserSetNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification) {
+    self.window.rootViewController = _MainViewController;
+  }];
   
+  [[NSNotificationCenter defaultCenter] addObserverForName:CurrentUserRemovedNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification) {
+    self.window.rootViewController = self.signInViewController ;
+  }];
 }
+
 
 - (void)applicationWillResignActive:(UIApplication *)application {
   // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -73,7 +86,7 @@
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
   
-  [[TwitterClient sharedInstance] openURL:url];
+  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kTwitterClientCallbackNotification object:nil userInfo:[NSDictionary dictionaryWithObject:url forKey:kTwitterClientCallbackURLKey]]];
   
   return YES;
 }

@@ -8,20 +8,20 @@
 
 #import <Foundation/Foundation.h>
 
-extern NSString * const UserDidLoginNotification;
-extern NSString * const UserDidLogoutNotification;
+extern NSString * const CurrentUserSetNotification;
+extern NSString * const CurrentUserRemovedNotification;
 
-@interface User : NSObject
-
-@property (nonatomic,strong) NSString *name;
-@property (nonatomic,strong) NSString *screenName;
-@property (nonatomic,strong) NSString *profileImageUrl;
-@property (nonatomic,strong) NSString *tagline;
-
-- (id)initWithDictionary:(NSDictionary *)dictionary;
-
+@interface User : NSObject<NSCoding>
+@property (nonatomic, assign) NSInteger userId;
+@property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong) NSString *screenName;
+@property (nonatomic, strong) NSURL *profileImageURL;
+@property (nonatomic, strong) NSURL *bannerImageURL;
+@property (nonatomic, assign) NSInteger tweetCount;
+@property (nonatomic, assign) NSInteger followerCount;
+@property (nonatomic, assign) NSInteger followingCount;
+- (instancetype)initWithDictionary:(NSDictionary*) dict;
 + (User *)currentUser;
-+ (void)setCurrentUser:(User *)currentUser;
-+ (void)logout;
-
++ (void)setCurrentUser:(User *)user;
++ (void)removeCurrentUser;
 @end

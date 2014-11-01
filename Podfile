@@ -5,6 +5,9 @@ source 'https://github.com/CocoaPods/Specs.git'
 
 target 'twitter' do
 pod "BDBOAuth1Manager"
+pod "DateTools"
+pod "AFNetworking"
+pod "MBProgressHUD"
 end
 
 target 'twitterTests' do

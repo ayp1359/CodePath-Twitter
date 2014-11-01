@@ -7,7 +7,7 @@
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
-	<string>nan.$(PRODUCT_NAME:rfc1034identifier)</string>
+	<string>com.codepath.$(PRODUCT_NAME:rfc1034identifier)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -24,10 +24,10 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>nan.twitter</string>
+			<string>com.codepath.twitter</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>cptwitterdemo</string>
+				<string>codepathtwitter</string>
 			</array>
 		</dict>
 	</array>

@@ -14,6 +14,16 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-twitter-DateTools.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-twitter-MBProgressHUD.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-twitter.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -22,17 +32,27 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>D59355E4473E69FEA60E9483</key>
+		<key>3371FC63A77B3A8E54C5F54D</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>E014812A1A7F7F1BE79720A7</key>
+		<key>7AA171612B48A5A8A1F70039</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>F395C59C452B1BCE59B2232F</key>
+		<key>8AB9414264477A983BE29E6E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>AFE40861E58BECF0CFA3D227</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D7C61189DADB794D156ECACA</key>
 		<dict>
 			<key>primary</key>
 			<true/>
