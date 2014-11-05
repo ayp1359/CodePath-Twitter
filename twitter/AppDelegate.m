@@ -12,6 +12,7 @@
 #import "User.h"
 #import "Tweet.h"
 #import "TimelineViewController.h"
+#import "ComposeTweetViewController.h"
 
 @interface AppDelegate ()
 @property (nonatomic, strong) UIViewController* signInViewController;
@@ -92,7 +93,10 @@
       [[TwitterClient instance] homeTimelineWithSuccess:success failure:failure];
     }];
     homeViewController.title = @"Home";
-    
+    [[NSNotificationCenter defaultCenter] addObserverForName:NewTweetPostedNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification) {
+      Tweet* tweet = notification.userInfo[NewTweetPostedNotificationKey];
+      [homeViewController.tweets insertObject:tweet atIndex:0];
+    }];
     _homeViewController = [[UINavigationController alloc] initWithRootViewController:homeViewController];
   }
   

@@ -11,6 +11,7 @@
 #import "TweetCell.h"
 #import <MBProgressHUD.h>
 
+
 @interface TimelineViewController ()
 @property (strong, nonatomic) UIRefreshControl* refreshControl;
 @property (strong, nonatomic) TweetTableViewController* tableViewController;
@@ -46,11 +47,20 @@
   [self.refreshControl addTarget:self action:@selector(refetchTweetsViaRefreshControl) forControlEvents:UIControlEventValueChanged];
   tableViewController.refreshControl = self.refreshControl;
   self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Sign Out" style:UIBarButtonItemStylePlain target:self action:@selector(SignOut)];
-  self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"New Tweet" style:UIBarButtonItemStylePlain target:self action:@selector(newTweet)];
+  self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"New Tweet" style:UIBarButtonItemStylePlain target:self action:@selector(composeNewTweet)];
   self.title = @"home";
   
   
 }
+
+- (void) composeNewTweet
+{
+  ComposeTweetViewController *composeViewController = [[ComposeTweetViewController alloc] initWithTweetText:@"" replyToTweetId:nil];
+  composeViewController.delegate = self;
+  UINavigationController *wrapperNavController = [[UINavigationController alloc] initWithRootViewController:composeViewController];
+  [self presentViewController:wrapperNavController animated:YES completion: nil];
+}
+
 
 - (void) viewWillAppear:(BOOL)animated
 {
@@ -106,12 +116,12 @@
   
 }
 
-- (void) didTweet:(Tweet *)tweet
+- (void) sendTweet:(Tweet *)tweet
 {
   [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void) didCancelComposeTweet
+- (void) cancelNewTweet
 {
   [self dismissViewControllerAnimated:YES completion:nil];
 }
