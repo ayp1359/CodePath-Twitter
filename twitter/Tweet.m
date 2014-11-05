@@ -43,13 +43,11 @@
 }
 
 + (NSArray *)tweetsWithArray: (NSArray *)array{
-  
   NSMutableArray *tweets = [[NSMutableArray alloc] init];
   for (NSDictionary *dictionary in array){
     [tweets addObject:[[Tweet alloc] initWithDictionary:dictionary]];
   }
   return tweets;
-  
 }
 
 @end

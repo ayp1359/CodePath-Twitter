@@ -91,7 +91,6 @@
   h += 16;
   h += 5;
   
-  
   CGSize maximumTextLabelSize = CGSizeMake(self.tweetTextLabel.frame.size.width, MAXFLOAT);
   CGRect nameRect = [tweet.text boundingRectWithSize:maximumTextLabelSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : self.tweetTextLabel.font} context:nil];
   h += nameRect.size.height;

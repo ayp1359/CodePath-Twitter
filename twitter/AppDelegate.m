@@ -16,6 +16,7 @@
 @interface AppDelegate ()
 @property (nonatomic, strong) UIViewController* signInViewController;
 @property (nonatomic, strong) UIViewController* MainViewController;
+@property (nonatomic, strong) UIViewController* homeViewController;
 @end
 
 @implementation AppDelegate
@@ -23,26 +24,19 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   
-  User *user  = [User currentUser];
-  
+  [self registerUserNotifications];
   self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
   self.signInViewController = [[SignInViewController alloc] init];
   
-  if(!_MainViewController){
-    _MainViewController = [[TimelineViewController alloc] initWithDataLoadingBlockWithSuccessFailure:^(void (^success)(NSArray *), void (^failure)(NSError *)) {
-      [[TwitterClient instance] homeTimelineWithSuccess:success failure:failure];
-    }];
+  User *user  = [User currentUser];
+  if(user) {
+    self.window.rootViewController = self.homeViewController;
   }
-  
-  if(user !=nil){
-    _MainViewController.title = @"Home";
-    self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:_MainViewController];
-  }
-  else{
+  else {
     self.window.rootViewController = self.signInViewController;
   }
   
-  [self registerUserNotifications];
+  
   self.window.backgroundColor = [UIColor whiteColor];
   [self.window makeKeyAndVisible];
   
@@ -53,7 +47,7 @@
 - (void) registerUserNotifications
 {
   [[NSNotificationCenter defaultCenter] addObserverForName:CurrentUserSetNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification) {
-    self.window.rootViewController = _MainViewController;
+    self.window.rootViewController = self.homeViewController;
   }];
   
   [[NSNotificationCenter defaultCenter] addObserverForName:CurrentUserRemovedNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification) {
@@ -90,5 +84,21 @@
   
   return YES;
 }
+
+- (UIViewController *)homeViewController
+{
+  if (!_homeViewController) {
+    TimelineViewController*  homeViewController = [[TimelineViewController alloc] initWithDataLoadingBlockWithSuccessFailure:^(void (^success)(NSArray *), void (^failure)(NSError *)) {
+      [[TwitterClient instance] homeTimelineWithSuccess:success failure:failure];
+    }];
+    homeViewController.title = @"Home";
+    
+    _homeViewController = [[UINavigationController alloc] initWithRootViewController:homeViewController];
+  }
+  
+  return _homeViewController;
+}
+
+
 
 @end
